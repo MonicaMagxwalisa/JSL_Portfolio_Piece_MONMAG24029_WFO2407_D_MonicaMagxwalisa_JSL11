@@ -7,7 +7,7 @@ import { initialData } from "./initialData.js";
  * **********************************************************************************************************************************************/
 
 // Function checks if local storage already has data, if not it loads initialData to localStorage
-function initializeData() {
+function initializeData() { 
   if (!localStorage.getItem('tasks')) {
     localStorage.setItem('tasks', JSON.stringify(initialData)); 
     localStorage.setItem('showSideBar', 'true')
@@ -15,10 +15,16 @@ function initializeData() {
     console.log('Data already exists in localStorage');
   }
 }
+ initializeData();
 
-// TASK: Get elements from the DOM
+// TASK: Got elements from the DOM
 const elements = {
-
+  sideBarDiv:document.getElementById('side-bar-div'),
+  boardsNavLinksDiv:document.getElementById('boards-nav-links-div'),
+  headerBoardName:document.getElementById('header-Board-name'),
+  addNewTaskBtn:document.getElementById('add-new-task-btn'),
+  newTaskModalWindow:document.getElementById('new-task-modal-window'),
+  titleInput:document.getElementById('stitle-input'),
 }
 
 let activeBoard = ""
