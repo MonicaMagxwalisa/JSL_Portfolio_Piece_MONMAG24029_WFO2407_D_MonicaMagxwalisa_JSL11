@@ -19,13 +19,30 @@ function initializeData() {
 
 // TASK: Got elements from the DOM
 const elements = {
-  sideBarDiv:document.getElementById('side-bar-div'),
-  boardsNavLinksDiv:document.getElementById('boards-nav-links-div'),
-  headerBoardName:document.getElementById('header-Board-name'),
-  addNewTaskBtn:document.getElementById('add-new-task-btn'),
-  newTaskModalWindow:document.getElementById('new-task-modal-window'),
-  titleInput:document.getElementById('stitle-input'),
-}
+  sideBarDiv: document.getElementById('side-bar-div'),
+  boardsNavLinksDiv: document.getElementById('boards-nav-links-div'),
+  headerBoardName: document.getElementById('header-board-name'),
+  addNewTaskBtn: document.getElementById('add-new-task-btn'),
+  newTaskModalWindow: document.getElementById('new-task-modal-window'),
+  titleInput: document.getElementById('title-input'),
+  descInput: document.getElementById('desc-input'),
+  statusSelect: document.getElementById('select-status'),
+  createTaskBtn: document.getElementById('create-task-btn'),
+  cancelAddTaskBtn: document.getElementById('cancel-add-task-btn'),
+  editTaskModalWindow: document.querySelector('.edit-task-modal-window'),
+  editTaskTitleInput: document.getElementById('edit-task-title-input'),
+  editTaskDescInput: document.getElementById('edit-task-desc-input'),
+  editStatusSelect: document.getElementById('edit-select-status'),
+  saveTaskChangesBtn: document.getElementById('save-task-changes-btn'),
+  cancelEditBtn: document.getElementById('cancel-edit-btn'),
+  deleteEditBtn: document.getElementById('delete-task-btn'),
+  columnDivs: document.querySelectorAll(".column-div"),
+  switchToggle: document.getElementById('switch'),
+  hideSidebarBtn: document.getElementById('hide-side-bar-btn'),
+  showSidebarBtn: document.getElementById('show-side-bar-btn'),
+  filterDiv: document.getElementById('filterDiv'),
+  logoImage: document.getElementById('logo'),
+
 
 let activeBoard = ""
 
