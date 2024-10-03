@@ -42,9 +42,9 @@ const elements = {
   showSidebarBtn: document.getElementById('show-side-bar-btn'),
   filterDiv: document.getElementById('filterDiv'),
   logoImage: document.getElementById('logo'),
+};
 
-
-let activeBoard = ""
+let activeBoard = "";
 
 // Extracts unique board names from tasks
 // TASK: FIX BUGS
