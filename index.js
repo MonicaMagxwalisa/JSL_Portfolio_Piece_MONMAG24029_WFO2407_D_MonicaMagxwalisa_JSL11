@@ -79,11 +79,14 @@ function displayBoards(boards) {
 
 }
 
-// Filters tasks corresponding to the board name and displays them on the DOM.
+// Set active board and filter tasks
 // TASK: Fix Bugs
-function filterAndDisplayTasksByBoard(boardName) {
-  const tasks = getTasks(); // Fetch tasks from a simulated local storage function
-  const filteredTasks = tasks.filter(task => task.board = boardName);
+function setActiveBoard(board) {
+  activeBoard = board;
+  localStorage.setItem("activeBoard", JSON.stringify(activeBoard));
+  elements.headerBoardName.textContent = activeBoard;
+  filterAndDisplayTasksByBoard(activeBoard);
+}
 
   // Ensure the column titles are set outside of this function or correctly initialized before this function runs
 
