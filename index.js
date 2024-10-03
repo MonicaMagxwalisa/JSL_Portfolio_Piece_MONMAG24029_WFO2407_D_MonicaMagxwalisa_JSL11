@@ -46,7 +46,7 @@ const elements = {
 
 let activeBoard = "";
 
-// Extracts unique board names from tasks
+// Extracts unique board names and display boards and tasks
 // TASK: FIX BUGS
 function fetchAndDisplayBoardsAndTasks() {
   const tasks = getTasks();
@@ -64,19 +64,16 @@ function fetchAndDisplayBoardsAndTasks() {
 // Creates different boards in the DOM
 // TASK: Fix Bugs
 function displayBoards(boards) {
-  const boardsContainer = document.getElementById("boards-nav-links-div");
-  boardsContainer.innerHTML = ''; // Clears the container
+  const boardsContainer = elements.boardsNavLinksDiv;
+  boardsContainer.innerHTML = ''; // Clear existing boards
+
   boards.forEach(board => {
     const boardElement = document.createElement("button");
     boardElement.textContent = board;
     boardElement.classList.add("board-btn");
-    boardElement.click()  { 
-      elements.headerBoardName.textContent = board;
-      filterAndDisplayTasksByBoard(board);
-      activeBoard = board //assigns active board
-      localStorage.setItem("activeBoard", JSON.stringify(activeBoard))
-      styleActiveBoard(activeBoard)
-    };
+    boardElement.addEventListener("click", () => {
+      setActiveBoard(board);
+    });
     boardsContainer.appendChild(boardElement);
   });
 
