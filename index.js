@@ -61,7 +61,7 @@ function fetchAndDisplayBoardsAndTasks() {
   }
 }
 
-// Creates different boards in the DOM
+// Display boards in the sidebar
 // TASK: Fix Bugs
 function displayBoards(boards) {
   const boardsContainer = elements.boardsNavLinksDiv;
