@@ -12,7 +12,7 @@ function initializeData() {
     localStorage.setItem('tasks', JSON.stringify(initialData)); 
     localStorage.setItem('showSideBar', 'true')
   } else {
-    console.log('Data already exists in localStorage');
+    console.log('Data already exists');
   }
 }
  initializeData();
