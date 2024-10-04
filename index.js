@@ -244,35 +244,23 @@ function toggleTheme() {
     elements.editTaskModalWindow.dataset.taskId = task.id; // Store taskId in modal for deletion
    
     elements.saveTaskChangesBtn.onclick = () => saveTaskChanges(task.id);
-    toggleModal(true, elements.editTaskModalWindow);
-  
-
-  // Get button elements from the task modal
-
-
-  // Call saveTaskChanges upon click of Save Changes button
- 
-
-  // Delete task using a helper function and close the task modal
-
-
   toggleModal(true, elements.editTaskModal); // Show the edit task modal
 }
 
+f/ Save changes to the task
 function saveTaskChanges(taskId) {
-  // Get new user inputs
-  
+  const updatedTask = {
+    title: elements.editTaskTitleInput.value,
+    description: elements.editTaskDescInput.value,
+    status: elements.editStatusSelect.value,
+    board: activeBoard
+  };
 
-  // Create an object with the updated task details
 
-
-  // Update task using a hlper functoin
- 
-
-  // Close the modal and refresh the UI to reflect the changes
-
+  putTask(taskId, updatedTask);
+  closeEditModal();
   refreshTasksUI();
-}
+
 
 /*************************************************************************************************************************************************/
 
