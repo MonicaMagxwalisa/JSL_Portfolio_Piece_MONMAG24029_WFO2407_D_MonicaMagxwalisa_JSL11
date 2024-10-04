@@ -1,23 +1,18 @@
-import { getTasks, createNewTask, patchTask, putTask, deleteTask } from "./utils/taskFunctions.js";
+import { getTasks, saveTasks, createNewTask, patchTask, putTask, deleteTask } from "./utils/taskFunctions.js"
 import { initialData } from "./initialData.js";
 
-
-/*************************************************************************************************************************************************
- * FIX BUGS!!!
- * **********************************************************************************************************************************************/
-
-// Function checks if local storage already has data, if not it loads initialData to localStorage
-function initializeData() { 
+// Initialize local storage with initial data if no tasks exist
+function initializeData() {
   if (!localStorage.getItem('tasks')) {
-    localStorage.setItem('tasks', JSON.stringify(initialData)); 
-    localStorage.setItem('showSideBar', 'true')
+    localStorage.setItem('tasks', JSON.stringify(initialData));
+    localStorage.setItem('showSideBar', 'true');
   } else {
     console.log('Data already exists');
   }
 }
- initializeData();
+initializeData();
 
-// TASK: Got elements from the DOM
+// Get elements from the DOM
 const elements = {
   sideBarDiv: document.getElementById('side-bar-div'),
   boardsNavLinksDiv: document.getElementById('boards-nav-links-div'),
@@ -27,7 +22,6 @@ const elements = {
   titleInput: document.getElementById('title-input'),
   descInput: document.getElementById('desc-input'),
   statusSelect: document.getElementById('select-status'),
-  createTaskBtn: document.getElementById('create-task-btn'),
   cancelAddTaskBtn: document.getElementById('cancel-add-task-btn'),
   editTaskModalWindow: document.querySelector('.edit-task-modal-window'),
   editTaskTitleInput: document.getElementById('edit-task-title-input'),
@@ -45,13 +39,13 @@ const elements = {
 };
 
 let activeBoard = "";
+let currentTaskId = null; // Add this to track the current task ID
 
-// Extracts unique board names and display boards and tasks
-// TASK: FIX BUGS
+// Fetch unique board names and display boards and tasks
 function fetchAndDisplayBoardsAndTasks() {
   const tasks = getTasks();
   const boards = [...new Set(tasks.map(task => task.board).filter(Boolean))];
-  
+
   displayBoards(boards);
 
   if (boards.length > 0) {
@@ -70,8 +64,7 @@ function displayBoards(boards) {
     const boardElement = document.createElement("button");
     boardElement.textContent = board;
     boardElement.classList.add("board-btn");
-    boardElement.addEventListener("click", () => {
-      setActiveBoard(board);
+    boardElement.addEventListener("click", () => {setActiveBoard(board);
     });
     boardsContainer.appendChild(boardElement);
   });
@@ -133,12 +126,12 @@ function setupEventListeners() {
   elements.switchToggle.addEventListener('change', toggleTheme);
   elements.addNewTaskBtn.addEventListener('click', openNewTaskModal);
   elements.newTaskModalWindow.addEventListener('submit', addTask);
-  elements.saveTaskChangesBtn.addEventListener('click', () => saveTaskChanges(taskId));
- 
-  // Correctly setup event for deleting a task
+  
+  // Delete task listener
   elements.deleteEditBtn.addEventListener('click', () => {
-    const taskId = elements.editTaskModalWindow.dataset.taskId; // Ensure taskId is set correctly
-    deleteTaskHandler(taskId);
+    if (currentTaskId) {
+      deleteTaskHandler(currentTaskId);
+    }
   });
 }
 
@@ -170,6 +163,7 @@ function resetNewTaskForm() {
 // Add a new task
 function addTask(event) {
   event.preventDefault();
+
   const task = {
     id: Date.now(),
     title: elements.titleInput.value.trim(),
@@ -202,17 +196,18 @@ function refreshTasksUI() {
 
 // Open modal for editing a task
 function openEditTaskModal(task) {
+  currentTaskId = task.id; // Track the current task ID
   elements.editTaskTitleInput.value = task.title;
   elements.editTaskDescInput.value = task.description;
   elements.editStatusSelect.value = task.status;
   elements.editTaskModalWindow.dataset.taskId = task.id; // Store taskId in modal for deletion
- 
-  elements.saveTaskChangesBtn.onclick = () => saveTaskChanges(task.id);
+
   toggleModal(true, elements.editTaskModalWindow);
 }
 
 // Save changes to the task
 function saveTaskChanges(taskId) {
+  if(currentTaskId){
   const updatedTask = {
     title: elements.editTaskTitleInput.value,
     description: elements.editTaskDescInput.value,
@@ -220,7 +215,7 @@ function saveTaskChanges(taskId) {
     board: activeBoard
   };
 
-  putTask(taskId, updatedTask);
+  putTask(currentTaskId, updatedTask);
   closeEditModal();
   refreshTasksUI();
 }
@@ -228,6 +223,7 @@ function saveTaskChanges(taskId) {
 // Close the edit modal
 function closeEditModal() {
   toggleModal(false, elements.editTaskModalWindow);
+  currentTaskId = null; // Reset current task ID
 }
 
 // Delete a task handler
@@ -268,6 +264,7 @@ function setInitialTheme() {
 // Initialize the application on DOM content load
 window.addEventListener('DOMContentLoaded', () => {
   setupEventListeners();
+  setInitialSidebarVisibility();
   setInitialTheme();
   fetchAndDisplayBoardsAndTasks();
 });
